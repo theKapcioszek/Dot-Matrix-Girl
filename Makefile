@@ -3,7 +3,7 @@ default:	a.out
 cwd.o: src/cwd.c src/cwd.h
 	cc -I. -c src/cwd.c
 
-main.o: src/main.c
+main.o: src/main.c src/instruction_set.h
 	cc -I. -c src/main.c
 
 a.out: main.o cwd.o

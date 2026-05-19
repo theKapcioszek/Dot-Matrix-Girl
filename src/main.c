@@ -1,29 +1,26 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdint.h>
 #include "cwd.h"
 
-#define MEM_SIZE 65535
-#define ROM_SIZE 32767
+#define INSTRUCTION_SET_IMPLEMENTATION
+#include "instruction_set.h"
+
+#define MEM_SIZE 0xffff
+#define ROM_SIZE 0x7fff
 #define CWD_PATH_SIZE 200
 
-typedef unsigned short u16;
-typedef char u8;
+#define PC_START 0x0100
+#define SP_START 0xfffe
 
 int main(int argc, char* argv[])
 {
-  u16 PC = 0;
-  u16 SP = 0;
-  u8 A = 0;
-  u8 B = 0;
-  u8 C = 0;
-  u8 D = 0;
-  u8 E = 0;
-  u8 F = 0;
-  u8 H = 0;
-  u8 L = 0;
+  CpuInternals cpu = {0};
+  cpu.pc = PC_START;
+  cpu.sp = SP_START;
 
-  u8 memory[MEM_SIZE] = {0};
+  uint8_t memory[MEM_SIZE] = {0};
 
   if(argc < 2){
     printf("\nNo ROM file provided\nUSAGE: \n");
@@ -57,6 +54,11 @@ int main(int argc, char* argv[])
     printf("%c",memory[i]);
   }
   printf("\n");
+
+  while(1){
+    decide_instruction(&cpu.pc,memory,&cpu);
+    break;
+  }
 
   return 0;
 } 
