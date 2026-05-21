@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
   printf("\n");
 
   while(1){
-    decide_instruction(&cpu.pc,memory,&cpu);
+    decide_instruction(memory,&cpu);
     break;
   }
 
